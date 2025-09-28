@@ -27,7 +27,7 @@
         <table class="table table-sm small table-bordered align-middle mb-0">
           <tr class="table-secondary">
             <th>ID</th>
-            <th>Job Name</th>
+            <th>Job Title</th>
             <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -36,7 +36,7 @@
           {% for job in jobs %}
           <tr>
             <td>{{ job.id }}</td>
-            <td>{{ job.name }}</td>
+            <td>{{ job.title }}</td>
             <td>
               <div class="d-grid">
                 <a
@@ -196,8 +196,8 @@
             <td>{{ job.date|date:"jS F Y" }}</td>
           </tr>
           <tr>
-            <th>Job Name</th>
-            <td>{{ job.name }}</td>
+            <th>Job Title</th>
+            <td>{{ job.title }}</td>
           </tr>
           <tr>
             <th>Job Description</th>
@@ -210,7 +210,7 @@
           href="#"
           class="btn btn-sm btn-warning"
           data-bs-toggle="modal"
-          data-bs-target="#job_edit"
+          data-bs-target="#job_edit_{{ job.id }}"
           >Edit Details</a
         >
         <a

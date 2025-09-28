@@ -11,15 +11,12 @@
           data-bs-target="#add_employee"
           >Add Employee</a
         >
-        <a
-          href="employees-list.html"
-          class="list-group-item list-group-item-action"
-          >View Employees</a
-        >
       </div>
       <div class="list-group shadow-sm small mb-3">
         <div class="list-group-item active">Related Links</div>
-        <a href="jobs-list.html" class="list-group-item list-group-item-action"
+        <a
+          href="{% url 'jobs' %}"
+          class="list-group-item list-group-item-action"
           >Jobs List</a
         >
       </div>
@@ -30,25 +27,27 @@
         <table class="table table-sm small table-bordered align-middle mb-0">
           <tr class="table-secondary">
             <th>ID</th>
-            <th>Employee ID</th>
+            <th>Job ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
+
+          {% for employee in employees %}
           <tr>
-            <td>1</td>
-            <td>542</td>
-            <td>Artem Tartakovsky</td>
-            <td>artem.tartakovskiy@gmail.com</td>
+            <td>{{ employee.id }}</td>
+            <td>{{ employee.job_id }}</td>
+            <td>{{ employee }}</td>
+            <td>{{ employee.email }}</td>
             <td>
               <div class="d-grid">
                 <a
                   href="#"
                   class="btn btn-sm btn-primary"
                   data-bs-toggle="modal"
-                  data-bs-target="#employee_detail"
+                  data-bs-target="#employee_detail_{{ employee.id }}"
                   >Details
                 </a>
               </div>
@@ -59,7 +58,7 @@
                   href="#"
                   class="btn btn-sm btn-warning"
                   data-bs-toggle="modal"
-                  data-bs-target="#employee_edit"
+                  data-bs-target="#employee_edit_{{ employee.id }}"
                   >Edit
                 </a>
               </div>
@@ -70,129 +69,19 @@
                   href="#"
                   class="btn btn-sm btn-danger"
                   data-bs-toggle="modal"
-                  data-bs-target="#employee_delete"
+                  data-bs-target="#employee_delete_{{ employee.id }}"
                   >Delete
                 </a>
               </div>
             </td>
           </tr>
+          {% empty %}
           <tr>
-            <td>1</td>
-            <td>542</td>
-            <td>Artem Tartakovsky</td>
-            <td>artem.tartakovskiy@gmail.com</td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_detail"
-                  >Details
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-warning"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_edit"
-                  >Edit
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_delete"
-                  >Delete
-                </a>
-              </div>
+            <td colspan="5" class="text-center text-muted">
+              No employees available.
             </td>
           </tr>
-          <tr>
-            <td>1</td>
-            <td>542</td>
-            <td>John Smith</td>
-            <td>john.smith@gmail.com</td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_detail"
-                  >Details
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-warning"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_edit"
-                  >Edit
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_delete"
-                  >Delete
-                </a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>542</td>
-            <td>Jane Doe</td>
-            <td>jane.doe@gmail.com</td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_detail"
-                  >Details
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-warning"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_edit"
-                  >Edit
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#employee_delete"
-                  >Delete
-                </a>
-              </div>
-            </td>
-          </tr>
+          {% endfor %}
         </table>
       </div>
     </div>
@@ -316,9 +205,10 @@
 </div>
 
 <!-- Employee Details Modal -->
+{% for employee in employees %}
 <div
   class="modal fade"
-  id="employee_detail"
+  id="employee_detail_{{ employee.id }}"
   data-bs-backdrop="static"
   tabindex="-1"
   aria-hidden="true"
@@ -339,31 +229,31 @@
         <table class="table table-bordered small mb-0">
           <tr>
             <th class="w-50">ID</th>
-            <td>1</td>
+            <td>{{ employee.id }}</td>
           </tr>
           <tr>
-            <th>Employee ID</th>
-            <td>542</td>
+            <th>Job</th>
+            <td>{{ employee.job.title }}</td>
           </tr>
           <tr>
             <th>First Name</th>
-            <td>Artem</td>
+            <td>{{ employee.first_name }}</td>
           </tr>
           <tr>
             <th>Last Name</th>
-            <td>Tartakovsky</td>
+            <td>{{ employee.last_name }}</td>
           </tr>
           <tr>
             <th>Email</th>
-            <td>artem.tartakovskiy@gmail.com</td>
+            <td>{{ employee.email }}</td>
           </tr>
           <tr>
             <th>Phone</th>
-            <td>+1820749163</td>
+            <td>{{ employee.phone }}</td>
           </tr>
           <tr>
             <th>Joining Date</th>
-            <td>29th October 2024</td>
+            <td>{{ employee.joining_date|date:"jS F Y" }}</td>
           </tr>
         </table>
       </div>
@@ -372,7 +262,7 @@
           href="#"
           class="btn btn-sm btn-warning"
           data-bs-toggle="modal"
-          data-bs-target="#employee_edit"
+          data-bs-target="#employee_edit_{{ employee.id }}"
           >Edit Details</a
         >
         <a
@@ -386,6 +276,7 @@
     </div>
   </div>
 </div>
+{% endfor %}
 
 <!-- Edit Employee Modal -->
 <div

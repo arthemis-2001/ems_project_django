@@ -5,7 +5,7 @@
       <div class="card text-bg-primary shadow text-center">
         <div class="card-header">Employees List</div>
         <div class="card-body">
-          <span class="fs-1">254+</span>
+          <span class="fs-1">{{ employee_count }}</span>
         </div>
         <a
           href="{% url 'employees' %}"
@@ -18,10 +18,10 @@
       <div class="card text-bg-primary shadow text-center">
         <div class="card-header">Jobs List</div>
         <div class="card-body">
-          <span class="fs-1">25+</span>
+          <span class="fs-1">{{ job_count }}</span>
         </div>
         <a
-          href="jobs-list.html"
+          href="{% url 'jobs' %}"
           class="card-footer small text-decoration-none text-white"
           >View all Jobs</a
         >

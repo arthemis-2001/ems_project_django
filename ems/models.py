@@ -4,12 +4,12 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 class Job(models.Model):
-    name = models.CharField(max_length=50)
+    title = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
     date = models.DateField(default=timezone.now)
     
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.title}"
 
 class Employee(models.Model):
     first_name = models.CharField(max_length=50)
