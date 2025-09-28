@@ -11,14 +11,11 @@
           data-bs-target="#add_job"
           >Add Job</a
         >
-        <a href="jobs-list.html" class="list-group-item list-group-item-action"
-          >View Jobs</a
-        >
       </div>
       <div class="list-group shadow-sm small mb-3">
         <div class="list-group-item active">Related Links</div>
         <a
-          href="employees-list.html"
+          href="{% url 'employees' %}"
           class="list-group-item list-group-item-action"
           >Employees List</a
         >
@@ -35,16 +32,18 @@
             <th>Edit</th>
             <th>Delete</th>
           </tr>
+
+          {% for job in jobs %}
           <tr>
-            <td>1</td>
-            <td>Full-stack Python Developer</td>
+            <td>{{ job.id }}</td>
+            <td>{{ job.name }}</td>
             <td>
               <div class="d-grid">
                 <a
                   href="#"
                   class="btn btn-sm btn-primary"
                   data-bs-toggle="modal"
-                  data-bs-target="#job_detail"
+                  data-bs-target="#job_detail_{{ job.id }}"
                   >Details
                 </a>
               </div>
@@ -55,7 +54,7 @@
                   href="#"
                   class="btn btn-sm btn-warning"
                   data-bs-toggle="modal"
-                  data-bs-target="#job_edit"
+                  data-bs-target="#job_edit_{{ job.id }}"
                   >Edit
                 </a>
               </div>
@@ -66,123 +65,19 @@
                   href="#"
                   class="btn btn-sm btn-danger"
                   data-bs-toggle="modal"
-                  data-bs-target="#job_delete"
+                  data-bs-target="#job_delete_{{ job.id }}"
                   >Delete
                 </a>
               </div>
             </td>
           </tr>
+          {% empty %}
           <tr>
-            <td>2</td>
-            <td>HR Recruiter</td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_detail"
-                  >Details
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-warning"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_edit"
-                  >Edit
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_delete"
-                  >Delete
-                </a>
-              </div>
+            <td colspan="5" class="text-center text-muted">
+              No jobs available.
             </td>
           </tr>
-          <tr>
-            <td>3</td>
-            <td>C++ Developer</td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_detail"
-                  >Details
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-warning"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_edit"
-                  >Edit
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_delete"
-                  >Delete
-                </a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Java Developer</td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_detail"
-                  >Details
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-warning"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_edit"
-                  >Edit
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="d-grid">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#job_delete"
-                  >Delete
-                </a>
-              </div>
-            </td>
-          </tr>
+          {% endfor %}
         </table>
       </div>
     </div>
@@ -232,6 +127,16 @@
                   />
                 </div>
               </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <textarea
+                    rows="4"
+                    class="form-control form-control-sm"
+                    placeholder="Job Description"
+                    required
+                  ></textarea>
+                </div>
+              </div>
               <div class="col-md-10">
                 <div class="d-grid">
                   <button type="submit" class="btn btn-sm btn-success">
@@ -260,9 +165,10 @@
 </div>
 
 <!-- Job Details Modal -->
+{% for job in jobs %}
 <div
   class="modal fade"
-  id="job_detail"
+  id="job_detail_{{ job.id }}"
   data-bs-backdrop="static"
   tabindex="-1"
   aria-hidden="true"
@@ -271,7 +177,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header text-bg-dark">
-        <h5 class="modal-title">Employee Details</h5>
+        <h5 class="modal-title">Job Details</h5>
         <button
           type="button"
           class="btn-close btn-close-white"
@@ -283,15 +189,19 @@
         <table class="table table-bordered small mb-0">
           <tr>
             <th class="w-50">ID</th>
-            <td>1</td>
+            <td>{{ job.id }}</td>
           </tr>
           <tr>
             <th>Date</th>
-            <td>29th October 2024</td>
+            <td>{{ job.date|date:"jS F Y" }}</td>
           </tr>
           <tr>
             <th>Job Name</th>
-            <td>Full-stack Python Developer</td>
+            <td>{{ job.name }}</td>
+          </tr>
+          <tr>
+            <th>Job Description</th>
+            <td>{{ job.description }}</td>
           </tr>
         </table>
       </div>
@@ -314,6 +224,7 @@
     </div>
   </div>
 </div>
+{% endfor %}
 
 <!-- Edit Job Modal -->
 <div
