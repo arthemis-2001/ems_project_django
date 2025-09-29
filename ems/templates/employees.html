@@ -109,72 +109,45 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="add_employee_form" method="POST" novalidate>
+          {% csrf_token %}
           <div class="container">
             <div class="row gx-3">
+              {{ form.non_field_errors }}
               <div class="col-md-12">
                 <div class="mb-3">
-                  <input
-                    type="date"
-                    class="form-control form-control-sm"
-                    required
-                  />
+                  {{ form.joining_date }}
+                  <div class="text-danger small">{{ form.joining_date.errors |join:" " }}</div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    placeholder="First Name"
-                    required
-                  />
+                  {{ form.first_name }}
+                  <div class="text-danger small">{{ form.first_name.errors |join:" " }}</div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    placeholder="Last Name"
-                    required
-                  />
+                  {{ form.last_name }}
+                  <div class="text-danger small">{{ form.last_name.errors |join:" " }}</div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
-                  <input
-                    type="email"
-                    class="form-control form-control-sm"
-                    placeholder="Email"
-                    required
-                  />
+                  {{ form.email }}
+                  <div class="text-danger small">{{ form.email.errors |join:" " }}</div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
-                  <input
-                    type="tel"
-                    class="form-control form-control-sm"
-                    placeholder="Phone"
-                    required
-                  />
+                  {{ form.phone }}
+                  <div class="text-danger small">{{ form.phone.errors |join:" " }}</div>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="mb-3">
-                  <select
-                    class="form-select form-select-sm"
-                    aria-label="Job Assigned"
-                  >
-                    <option selected>Select job for Employee</option>
-                    <option value="C++ Developer">C++ Developer</option>
-                    <option value="Java Developer">Java Developer</option>
-                    <option value="Full-Stack Python Developer">
-                      Full-stack Python Developer
-                    </option>
-                    <option value="HR Recruiter">HR Recruiter</option>
-                  </select>
+                  {{ form.job }}
+                  <div class="text-danger small">{{ form.job.errors |join:" " }}</div>
                 </div>
               </div>
               <div class="col-md-10">
@@ -215,7 +188,7 @@
   style="backdrop-filter: blur(5px)"
 >
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <div class="modal-content">c
       <div class="modal-header text-bg-dark">
         <h5 class="modal-title">Employee Details</h5>
         <button
@@ -299,7 +272,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="employee_edit_form">
           <div class="container">
             <div class="row gx-3">
               <div class="col-md-12">
@@ -440,4 +413,15 @@
     </div>
   </div>
 </div>
+
+{% if form.errors %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var addEmployeeModal = new bootstrap.Modal(document.getElementById("add_employee"));
+    addEmployeeModal.show();
+  });
+</script>
+{% endif %}
 {% endblock %}
+
+
